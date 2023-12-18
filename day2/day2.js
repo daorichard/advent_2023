@@ -84,4 +84,45 @@ function partOne(file) {
     return sum
 }
 
-console.log(partOne(filePath));
+// console.log(partOne(filePath));
+
+// Find the minimum number of cubes required for each game, multiply them together and sum from each game
+
+// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+function partTwo(file) {
+    const lines = fs.readFileSync(file, "utf-8").trim().split('\n');
+    return lines.map((line) => {
+        // initialize object to keep track of max counts
+        const maxCount = {
+            red: 0,
+            green: 0,
+            blue: 0
+        };
+        // string parsing 
+        line
+            .split(': ')[1]
+            .split('; ')
+            .forEach((set) => {
+                const pulls = set.split(', ');
+                // update the object
+                return pulls.forEach((pull) => {
+                    // splitting on number and color within pull string
+                    const [count, color] = pull.split(' ');
+                    if (maxCount[color] < Number(count)) {
+                        maxCount[color] = Number(count)
+                    }
+                });
+            });
+        // console.log(maxCount);
+        const power = 1
+        for (const color in maxCount) {
+            power *= maxCount[color];
+        }
+        return power
+
+
+    }).reduce((acc, currValue) => acc + currValue, 0)
+
+}
+
+console.log(partTwo(filePath));
